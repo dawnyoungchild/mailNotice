@@ -42,35 +42,39 @@ async def ping_dev():
                     # await asyncio.sleep(10)
                     pass
                 else:
-                    now = time.localtime()
-                    print(f'网元 {dev} 连接异常！')
-                    content = f'{time.strftime("%Y-%m-%d %H:%M:%S", now)} 网元 {dev} 连接异常！'
-                    msg = MIMEText(content)  # 生成MIMEText对象
-                    msg['Subject'] = subject  # 放入邮件主题
-                    msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
-                    msg['to'] = msg_to
-                    s = smtplib.SMTP_SSL('smtp.qq.com', 465)
-                    s.login(msg_from, password)
-                    s.sendmail(msg_from, msg_to, msg.as_string())
-                    await asyncio.sleep(60)
-                    l_unreached.append(ip)
-                    print(l_unreached)
-                    for ip in l_unreached:
-                        res_err = ping(ip)
-                        # print(res_err)
-                        if res_err:
-                            now = time.localtime()
-                            print(f'网元 {dev} 连接恢复正常！')
-                            content = f'{time.strftime("%Y-%m-%d %H:%M:%S", now)} 网元 {dev} 连接恢复正常！'
-                            msg = MIMEText(content)  # 生成MIMEText对象
-                            msg['Subject'] = subject  # 放入邮件主题
-                            msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
-                            msg['to'] = msg_to
-                            s = smtplib.SMTP_SSL('smtp.qq.com', 465)
-                            s.login(msg_from, password)
-                            s.sendmail(msg_from, msg_to, msg.as_string())
-                        else:
-                            pass
+                    res_com = ping(ip, timeout=10)
+                    if res_com:
+                        pass
+                    else:
+                        now = time.localtime()
+                        print(f'网元 {dev} 连接异常！')
+                        content = f'{time.strftime("%Y-%m-%d %H:%M:%S", now)} 网元 {dev} 连接异常！'
+                        msg = MIMEText(content)  # 生成MIMEText对象
+                        msg['Subject'] = subject  # 放入邮件主题
+                        msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
+                        msg['to'] = msg_to
+                        s = smtplib.SMTP_SSL('smtp.qq.com', 465)
+                        s.login(msg_from, password)
+                        s.sendmail(msg_from, msg_to, msg.as_string())
+                        await asyncio.sleep(60)
+                        l_unreached.append(ip)
+                        print(l_unreached)
+                        for ip in l_unreached:
+                            res_err = ping(ip)
+                            # print(res_err)
+                            if res_err:
+                                now = time.localtime()
+                                print(f'网元 {dev} 连接恢复正常！')
+                                content = f'{time.strftime("%Y-%m-%d %H:%M:%S", now)} 网元 {dev} 连接恢复正常！'
+                                msg = MIMEText(content)  # 生成MIMEText对象
+                                msg['Subject'] = subject  # 放入邮件主题
+                                msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
+                                msg['to'] = msg_to
+                                s = smtplib.SMTP_SSL('smtp.qq.com', 465)
+                                s.login(msg_from, password)
+                                s.sendmail(msg_from, msg_to, msg.as_string())
+                            else:
+                                pass
 
 async def main():
     online_echo_task = asyncio.create_task(online_echo())
