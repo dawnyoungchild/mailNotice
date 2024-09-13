@@ -37,7 +37,7 @@ async def ping_dev():
                 dev = l_ip[1].strip('\n')
                 # print(ip)
                 # print(dev)
-                res = ping(ip)
+                res = ping(ip, timeout=10)
                 if res:
                     # await asyncio.sleep(10)
                     pass
