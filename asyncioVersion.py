@@ -82,4 +82,7 @@ async def main():
     await asyncio.gather(online_echo_task, ping_dev_task)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except:
+        pass
