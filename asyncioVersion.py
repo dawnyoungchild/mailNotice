@@ -42,6 +42,7 @@ async def ping_dev():
                     # await asyncio.sleep(10)
                     pass
                 else:
+                    await asyncio.sleep(10)
                     res_com = ping(ip, timeout=10)
                     if res_com:
                         pass
