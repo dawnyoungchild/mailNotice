@@ -8,7 +8,7 @@ from ping3 import ping
 
 msg_from = '542283486@qq.com'  # 发送邮箱
 password = 'dshklzoutyyabfjg'  # 授权码
-msg_to = ['542283486@qq.com', 'yuanxiaoxu@live.com', 'cailiaoke2013@163.com']  # 收件邮箱
+msg_to = ['542283486@qq.com', 'cailiaoke2013@163.com']  # 收件邮箱
 subject = '网元监测'
 
 
@@ -22,8 +22,8 @@ async def online_echo():
         msg['to'] = ', '.join(msg_to)
         s = smtplib.SMTP_SSL('smtp.qq.com', 465)
         s.login(msg_from, password)
-        for i in msg_to:
-            s.sendmail(msg_from, i, msg.as_string())
+        # for i in msg_to:
+        s.sendmail(msg_from, msg_to, msg.as_string())
         await asyncio.sleep(3 * 60 * 60)
 
 async def ping_dev():
@@ -53,11 +53,11 @@ async def ping_dev():
                         msg = MIMEText(content)  # 生成MIMEText对象
                         msg['Subject'] = subject  # 放入邮件主题
                         msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
-                        msg['to'] = ', '.join(msg_to)
+                        msg['to'] = ','.join(msg_to)
                         s = smtplib.SMTP_SSL('smtp.qq.com', 465)
                         s.login(msg_from, password)
-                        for i in msg_to:
-                            s.sendmail(msg_from, i, msg.as_string())
+                        # for i in msg_to:
+                        s.sendmail(msg_from, msg_to, msg.as_string())
                         s = smtplib.SMTP_SSL('smtp.qq.com', 465)
                         s.login(msg_from, password)
                         s.sendmail(msg_from, msg_to, msg.as_string())
@@ -74,11 +74,11 @@ async def ping_dev():
                                 msg = MIMEText(content)  # 生成MIMEText对象
                                 msg['Subject'] = subject  # 放入邮件主题
                                 msg['From'] = formataddr(('监测机器人', msg_from))  # 放入发件人
-                                msg['to'] = ', '.join(msg_to)
+                                msg['to'] = ','.join(msg_to)
                                 s = smtplib.SMTP_SSL('smtp.qq.com', 465)
                                 s.login(msg_from, password)
-                                for i in msg_to:
-                                    s.sendmail(msg_from, i, msg.as_string())
+                                # for i in msg_to:
+                                s.sendmail(msg_from, msg_to, msg.as_string())
                             else:
                                 pass
 
